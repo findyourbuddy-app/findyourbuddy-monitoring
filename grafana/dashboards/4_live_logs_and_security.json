@@ -1,0 +1,56 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "graphTooltip": 1,
+  "id": 4,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "title": "Toplam Şikayet / Bildirim Sayısı",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 8, "x": 0, "y": 0 },
+      "targets": [{ "expr": "app_reports_total", "legendFormat": "Şikayetler" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+    },
+    {
+      "title": "Engellenen Kullanıcı Sayısı",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 8, "x": 8, "y": 0 },
+      "targets": [{ "expr": "app_blocks_total", "legendFormat": "Engellemeler" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+    },
+    {
+      "title": "Çiftli Kanka (Double Buddy) İletişim Yoğunluğu",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 8, "x": 16, "y": 0 },
+      "targets": [{ "expr": "app_double_buddy_requests_total", "legendFormat": "Çift Kanka İsteği" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+    },
+    {
+      "title": "Güvenlik & Şikayet Oranı Dağılımı (Reports vs Blocks)",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "targets": [
+        { "expr": "app_reports_total", "legendFormat": "Açılan Şikayet / Rapor" },
+        { "expr": "app_blocks_total", "legendFormat": "Engellenen Kullanıcı" }
+      ]
+    },
+    {
+      "title": "Sistem Sağlık ve Veritabanı Havuz Trendi",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "targets": [
+        { "expr": "supabase_db_status", "legendFormat": "Supabase DB Status" },
+        { "expr": "supabase_db_active_connections", "legendFormat": "Supabase Aktif Bağlantı" }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["findyourbuddy", "security", "health"],
+  "time": { "from": "now-6h", "to": "now" },
+  "title": "4. FindYourBuddy - Güvenlik, Şikayetler & Sistem Sağlığı",
+  "uid": "fyb-4-live-logs-security"
+}

@@ -1,0 +1,38 @@
+groups:
+  - name: findyourbuddy_alerts
+    rules:
+      - alert: HighErrorRate5xx
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Yüksek 5xx Sunucu Hatası Algılandı"
+          description: "API sunucusu son 5 dakikada %5'ten fazla 5xx hatası verdi."
+
+      - alert: HighLatencyP95
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 1.0
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Yüksek Yanıt Süresi (p95 > 1000ms)"
+          description: "İsteklerin %95'i 1 saniyeden uzun sürüyor."
+
+      - alert: DatabasePoolExhaustion
+        expr: db_pool_active_connections / db_pool_max_connections > 0.85
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PostgreSQL Bağlantı Havuzu %85'i Aşmış"
+          description: "Veritabanı bağlantı havuzu tükenmek üzere."
+
+      - alert: HighCloudCostSpike
+        expr: rate(cloud_estimated_cost_usd_total[1h]) * 24 * 30 > 500
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Aylık Maliyet Tahmini Sınırı Aştı (>$500/ay)"
+          description: "Cloud kaynak kullanımı aylık $500 maliyet tahminini aştı."

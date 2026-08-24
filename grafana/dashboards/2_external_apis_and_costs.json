@@ -1,0 +1,78 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "graphTooltip": 1,
+  "id": 2,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "title": "Giphy API GIF Arama Hacmi",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "targets": [{ "expr": "external_api_giphy_requests_total", "legendFormat": "Giphy Arama" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+    },
+    {
+      "title": "Üniversiteler API Arama Hacmi",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "targets": [{ "expr": "external_api_university_requests_total", "legendFormat": "Uni Arama" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+    },
+    {
+      "title": "Novita AI LLM Token (DeepSeek)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "targets": [{ "expr": "external_api_novita_llm_tokens_total", "legendFormat": "LLM Token" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+    },
+    {
+      "title": "Novita AI Vision Token (Selfie Verification)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
+      "targets": [{ "expr": "external_api_novita_vision_tokens_total", "legendFormat": "Vision Token" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "blue", "value": null }] } } }
+    },
+    {
+      "title": "Iyzico Ödeme Satış Ciro (₺)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
+      "targets": [{ "expr": "external_api_iyzico_volume_try_total", "legendFormat": "Iyzico Gelir (₺)" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "unit": "currencyTRY" } }
+    },
+    {
+      "title": "Tahmini Toplam Bulut Bütçesi ($)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
+      "targets": [{ "expr": "(external_api_novita_tokens_total * 0.000002) + 45", "legendFormat": "Maliyet ($)" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "unit": "currencyUSD" } }
+    },
+    {
+      "title": "Novita AI Model Tüketim Ayrımı (LLM vs Vision Model)",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 4 },
+      "targets": [
+        { "expr": "external_api_novita_llm_tokens_total", "legendFormat": "DeepSeek LLM (Kanka Synergy & Katagori)" },
+        { "expr": "external_api_novita_vision_tokens_total", "legendFormat": "Qwen Vision (Selfie Foto Doğrulama)" }
+      ]
+    },
+    {
+      "title": "Dış API Yanıt Süreleri Karşılaştırması (Giphy vs Uni vs Etkinlik.io vs Novita AI)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 16, "x": 8, "y": 4 },
+      "targets": [
+        { "expr": "rate(external_api_giphy_requests_total[5m])", "legendFormat": "Giphy API RPS" },
+        { "expr": "rate(external_api_university_requests_total[5m])", "legendFormat": "University API RPS" },
+        { "expr": "rate(external_api_novita_tokens_total[5m])", "legendFormat": "Novita AI Token Hızı" }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["findyourbuddy", "external-apis", "costs", "novita-ai"],
+  "time": { "from": "now-6h", "to": "now" },
+  "title": "2. FindYourBuddy - Dış API Performansı, GIF, Novita Vision & Maliyetler",
+  "uid": "fyb-2-external-apis-costs"
+}

@@ -1,0 +1,89 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 1,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "title": "Anlık Çevrimiçi Kullanıcılar",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "targets": [{ "expr": "app_users_active", "legendFormat": "Aktif Kullanıcı" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "green", "value": null }] } } }
+    },
+    {
+      "title": "Toplam Kayıtlı Kullanıcı",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "targets": [{ "expr": "app_users_total", "legendFormat": "Toplam Kullanıcı" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" } } }
+    },
+    {
+      "title": "Aktif Premium Üyeler",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "targets": [{ "expr": "app_subscriptions_active_count", "legendFormat": "Premium Üye" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "purple", "value": null }] } } }
+    },
+    {
+      "title": "Mavi Tikli Doğrulanmış Profiller",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
+      "targets": [{ "expr": "app_users_verified_count", "legendFormat": "Mavi Tik" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "blue", "value": null }] } } }
+    },
+    {
+      "title": "Üniversiteli / Öğrenci Sayısı",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
+      "targets": [{ "expr": "app_users_students_total", "legendFormat": "Üniversiteli" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+    },
+    {
+      "title": "Toplam Eşleşme (Kanka)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
+      "targets": [{ "expr": "app_matches_active_count", "legendFormat": "Eşleşme" }],
+      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+    },
+    {
+      "title": "Kullanıcı Cinsiyet Dağılımı (Kadın vs Erkek vs Diğer)",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 4 },
+      "targets": [
+        { "expr": "app_users_gender_female_total", "legendFormat": "Kadın Kullanıcı" },
+        { "expr": "app_users_gender_male_total", "legendFormat": "Erkek Kullanıcı" },
+        { "expr": "app_users_gender_other_total", "legendFormat": "Belirtilmemiş / Diğer" }
+      ]
+    },
+    {
+      "title": "Kaydırma (Swipe) Dağılım Trendi (Beğeni vs Pas vs Süper Beğeni)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 4 },
+      "targets": [
+        { "expr": "app_swipes_likes_total", "legendFormat": "Beğeni (Like)" },
+        { "expr": "app_swipes_passes_total", "legendFormat": "Pas (Pass)" },
+        { "expr": "app_swipes_superlikes_total", "legendFormat": "Süper Beğeni" }
+      ]
+    },
+    {
+      "title": "Etkinlik Kaynağı Dağılımı (Sistem Scraped vs Kullanıcı Özel)",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 4 },
+      "targets": [
+        { "expr": "app_events_system_scraped_count", "legendFormat": "Etkinlik.io Scraped" },
+        { "expr": "app_events_user_created_count", "legendFormat": "Kullanıcı Özel Etkinliği" }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["findyourbuddy", "executive", "kpi", "demographics"],
+  "time": { "from": "now-6h", "to": "now" },
+  "title": "1. FindYourBuddy - Yönetici, Demografik & Büyüme Panosu (Executive KPIs)",
+  "uid": "fyb-1-executive-kpis"
+}

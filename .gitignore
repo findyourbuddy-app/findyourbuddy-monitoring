@@ -1,0 +1,22 @@
+# Persistent data volumes
+prometheus_data/
+grafana_data/
+loki_data/
+*.log
+
+# Environment variables & secrets
+.env
+.env.local
+.env.production
+
+# Python virtual environment & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# OS specific files
+.DS_Store
+Thumbs.db
