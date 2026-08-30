@@ -1,0 +1,38 @@
+# Optional: run the k6 load test inside the monitoring stack and stream every
+# sample into Prometheus, so dashboard 5 (Yük Testi / k6) shows the run live.
+#
+#   docker compose -f docker-compose.yml -f load-test/docker-compose.k6.yml run --rm k6
+#
+# Needs the receiver flag on Prometheus (already set in docker-compose.yml):
+#   --web.enable-remote-write-receiver
+#
+# Override the target and profile with env vars, e.g.:
+#   BASE_URL=https://api.example.com SCENARIO=stress RATE=600 VUS=400 \
+#     docker compose -f docker-compose.yml -f load-test/docker-compose.k6.yml run --rm k6
+
+services:
+  k6:
+    image: grafana/k6:0.54.0
+    container_name: findyourbuddy-k6
+    networks:
+      - monitoring-net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      BASE_URL: "${BASE_URL:-http://host.docker.internal:8001}"
+      SCENARIO: "${SCENARIO:-load}"
+      VUS: "${VUS:-}"
+      RATE: "${RATE:-}"
+      USERS: "${USERS:-}"
+      PASSWORD: "${PASSWORD:-LoadTest123}"
+      P95_MS: "${P95_MS:-}"
+      P99_MS: "${P99_MS:-}"
+      FAIL_RATE: "${FAIL_RATE:-}"
+      SOAK_DURATION: "${SOAK_DURATION:-}"
+      RUN_ID: "${RUN_ID:-}"
+      K6_PROMETHEUS_RW_SERVER_URL: "http://prometheus:9090/api/v1/write"
+      K6_PROMETHEUS_RW_TREND_STATS: "avg,med,p(95),p(99),max"
+    volumes:
+      - ./load-test:/scripts:ro
+    working_dir: /scripts
+    command: ["run", "-o", "experimental-prometheus-rw", "scenario.js"]

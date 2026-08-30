@@ -1,0 +1,167 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "graphTooltip": 1,
+  "id": 5,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Aktif Sanal Kullanıcı (VU)",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "targets": [{ "expr": "k6_vus", "legendFormat": "VU", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }],
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "blue" } } }
+    },
+    {
+      "id": 2,
+      "title": "İstek/sn (RPS) - tepe",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "targets": [{ "expr": "max_over_time((sum(rate(k6_http_reqs_total[1m])))[$__range:1m])", "legendFormat": "RPS", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }],
+      "fieldConfig": { "defaults": { "unit": "reqps", "color": { "mode": "fixed", "fixedColor": "green" } } }
+    },
+    {
+      "id": 3,
+      "title": "Hata Oranı - tepe",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "targets": [{ "expr": "max_over_time(k6_http_req_failed_rate[$__range])", "legendFormat": "başarısız", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }],
+      "fieldConfig": { "defaults": { "unit": "percentunit", "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 0.02 }, { "color": "red", "value": 0.05 }] } } }
+    },
+    {
+      "id": 4,
+      "title": "p95 Gecikme - tepe (ms)",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
+      "targets": [{ "expr": "max_over_time(k6_http_req_duration_p95[$__range]) * 1000", "legendFormat": "p95", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }],
+      "fieldConfig": { "defaults": { "unit": "ms", "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 800 }, { "color": "red", "value": 2000 }] } } }
+    },
+    {
+      "id": 5,
+      "title": "Oluşan Eşleşme",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
+      "targets": [{ "expr": "max_over_time(sum(k6_matches_formed_total)[$__range:1m])", "legendFormat": "match", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }],
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "purple" } } }
+    },
+    {
+      "id": 6,
+      "title": "Oluşan Etkinlik",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
+      "targets": [{ "expr": "max_over_time(sum(k6_events_created_total)[$__range:1m])", "legendFormat": "etkinlik", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }],
+      "fieldConfig": { "defaults": { "color": { "mode": "fixed", "fixedColor": "blue" } } }
+    },
+
+    {
+      "id": 10,
+      "title": "Yük Profili: VU & İstek/sn",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "targets": [
+        { "expr": "k6_vus", "legendFormat": "VU", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "sum(rate(k6_http_reqs_total[$__rate_interval]))", "legendFormat": "İstek/sn", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "sum(rate(k6_iterations_total[$__rate_interval]))", "legendFormat": "Oturum/sn", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Genel API Gecikmesi (ms)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "targets": [
+        { "expr": "k6_http_req_duration_avg * 1000", "legendFormat": "ort", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_http_req_duration_p95 * 1000", "legendFormat": "p95", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_http_req_duration_p99 * 1000", "legendFormat": "p99", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_http_req_duration_max * 1000", "legendFormat": "max", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }
+      ],
+      "fieldConfig": { "defaults": { "unit": "ms" } }
+    },
+    {
+      "id": 12,
+      "title": "Adım Bazlı p95 Gecikme - hangi çağrı önce bozuluyor? (ms)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 12 },
+      "targets": [
+        { "expr": "k6_step_events_p95 * 1000", "legendFormat": "GET /events", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_event_detail_p95 * 1000", "legendFormat": "GET /events/{id}", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_candidates_p95 * 1000", "legendFormat": "GET /swipes/candidates", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_swipe_p95 * 1000", "legendFormat": "POST /swipes/", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_matches_p95 * 1000", "legendFormat": "GET /matches/", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_messages_read_p95 * 1000", "legendFormat": "GET messages", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_message_send_p95 * 1000", "legendFormat": "POST message", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_notifications_p95 * 1000", "legendFormat": "GET /notifications/", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_event_create_p95 * 1000", "legendFormat": "POST /events/", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "k6_step_event_attend_p95 * 1000", "legendFormat": "POST attend", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }
+      ],
+      "fieldConfig": { "defaults": { "unit": "ms" } }
+    },
+
+    {
+      "id": 20,
+      "title": "İstek/sn - Durum Koduna Göre",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 21 },
+      "targets": [
+        { "expr": "sum by (status) (rate(k6_http_reqs_total[$__rate_interval]))", "legendFormat": "{{status}}", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }
+      ],
+      "fieldConfig": { "defaults": { "unit": "reqps" } }
+    },
+    {
+      "id": 21,
+      "title": "Hatalar & Limitler",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 21 },
+      "targets": [
+        { "expr": "sum(rate(k6_http_reqs_total{status=~\"5..\"}[$__rate_interval]))", "legendFormat": "5xx /sn", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "max(k6_rate_limited_429_rate)", "legendFormat": "altyapı 429 oranı", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "sum(rate(k6_swipe_quota_reached_total[$__rate_interval]))", "legendFormat": "swipe kotası doldu /sn", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }
+      ]
+    },
+
+    {
+      "id": 30,
+      "title": "Backend: Supabase Aktif Bağlantı (havuz = 30)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 29 },
+      "targets": [
+        { "expr": "supabase_db_active_connections", "legendFormat": "aktif bağlantı", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }
+      ],
+      "fieldConfig": { "defaults": { "thresholds": { "steps": [{ "color": "green", "value": null }, { "color": "orange", "value": 24 }, { "color": "red", "value": 30 }] }, "custom": { "thresholdsStyle": { "mode": "line" } } } }
+    },
+    {
+      "id": 31,
+      "title": "Backend: DB'ye Yazılanlar (yük altında birikim)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "fyb-prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 29 },
+      "targets": [
+        { "expr": "app_swipes_total", "legendFormat": "toplam swipe", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "app_matches_active_count", "legendFormat": "aktif eşleşme", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "app_messages_total", "legendFormat": "toplam mesaj", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } },
+        { "expr": "app_events_total", "legendFormat": "toplam etkinlik", "datasource": { "type": "prometheus", "uid": "fyb-prometheus" } }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["findyourbuddy", "load-test", "k6"],
+  "time": { "from": "now-30m", "to": "now" },
+  "title": "5. FindYourBuddy - Yük Testi (k6)",
+  "uid": "fyb-5-load-test-k6"
+}
