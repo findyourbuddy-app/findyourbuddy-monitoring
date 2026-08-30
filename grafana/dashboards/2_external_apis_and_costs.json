@@ -1,78 +1,884 @@
 {
-  "annotations": { "list": [] },
+  "uid": "fyb-2-external-apis-costs",
+  "title": "2. FindYourBuddy - Dış API & Maliyet",
+  "tags": [
+    "findyourbuddy",
+    "cost",
+    "external-api"
+  ],
   "editable": true,
   "graphTooltip": 1,
-  "id": 2,
-  "links": [],
+  "style": "dark",
+  "schemaVersion": 39,
+  "timezone": "browser",
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "refresh": "30s",
   "liveNow": true,
+  "links": [],
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
   "panels": [
     {
-      "title": "Giphy API GIF Arama Hacmi",
+      "id": 1,
       "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
-      "targets": [{ "expr": "external_api_giphy_requests_total", "legendFormat": "Giphy Arama" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
-    },
-    {
-      "title": "Üniversiteler API Arama Hacmi",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
-      "targets": [{ "expr": "external_api_university_requests_total", "legendFormat": "Uni Arama" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
-    },
-    {
-      "title": "Novita AI LLM Token (DeepSeek)",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
-      "targets": [{ "expr": "external_api_novita_llm_tokens_total", "legendFormat": "LLM Token" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
-    },
-    {
-      "title": "Novita AI Vision Token (Selfie Verification)",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
-      "targets": [{ "expr": "external_api_novita_vision_tokens_total", "legendFormat": "Vision Token" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "blue", "value": null }] } } }
-    },
-    {
-      "title": "Iyzico Ödeme Satış Ciro (₺)",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
-      "targets": [{ "expr": "external_api_iyzico_volume_try_total", "legendFormat": "Iyzico Gelir (₺)" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "unit": "currencyTRY" } }
-    },
-    {
-      "title": "Tahmini Toplam Bulut Bütçesi ($)",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
-      "targets": [{ "expr": "(external_api_novita_tokens_total * 0.000002) + 45", "legendFormat": "Maliyet ($)" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "unit": "currencyUSD" } }
-    },
-    {
-      "title": "Novita AI Model Tüketim Ayrımı (LLM vs Vision Model)",
-      "type": "piechart",
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 4 },
+      "title": "Giphy İstek (toplam)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
       "targets": [
-        { "expr": "external_api_novita_llm_tokens_total", "legendFormat": "DeepSeek LLM (Kanka Synergy & Katagori)" },
-        { "expr": "external_api_novita_vision_tokens_total", "legendFormat": "Qwen Vision (Selfie Foto Doğrulama)" }
-      ]
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_giphy_requests_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
     },
     {
-      "title": "Dış API Yanıt Süreleri Karşılaştırması (Giphy vs Uni vs Etkinlik.io vs Novita AI)",
+      "id": 2,
+      "type": "stat",
+      "title": "Üniversite API İstek",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_university_requests_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Novita LLM Token",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_novita_llm_tokens_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Novita Vision Token",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_novita_vision_tokens_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Iyzico Ciro (₺)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 4
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_iyzico_volume_try_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyTRY"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Iyzico İşlem Sayısı",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 4
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_iyzico_transactions_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 7,
+      "type": "stat",
+      "title": "Novita Tahmini Maliyet ($)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 4
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_novita_total_cost_usd",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 200
+              }
+            ]
+          },
+          "unit": "currencyUSD"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 8,
+      "type": "stat",
+      "title": "Novita Toplam Token",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 4
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_novita_tokens_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 9,
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 16, "x": 8, "y": 4 },
+      "title": "Dış API İstek Hızı (istek/sn)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "pluginVersion": "10.4.0",
       "targets": [
-        { "expr": "rate(external_api_giphy_requests_total[5m])", "legendFormat": "Giphy API RPS" },
-        { "expr": "rate(external_api_university_requests_total[5m])", "legendFormat": "University API RPS" },
-        { "expr": "rate(external_api_novita_tokens_total[5m])", "legendFormat": "Novita AI Token Hızı" }
-      ]
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(external_api_giphy_requests_total[5m])",
+          "legendFormat": "Giphy",
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(external_api_university_requests_total[5m])",
+          "legendFormat": "Üniversite",
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "C",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(external_api_iyzico_transactions_total[5m])",
+          "legendFormat": "Iyzico",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "reqps",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "spanNulls": false,
+            "showPoints": "never",
+            "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisColorMode": "text",
+            "axisBorderShow": false,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "axisCenteredZero": false,
+            "barAlignment": 0,
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "insertNulls": false
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Novita AI Token Tüketim Hızı (token/sn)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(external_api_novita_llm_tokens_total[5m])",
+          "legendFormat": "LLM",
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "rate(external_api_novita_vision_tokens_total[5m])",
+          "legendFormat": "Vision",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "spanNulls": false,
+            "showPoints": "never",
+            "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisColorMode": "text",
+            "axisBorderShow": false,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "axisCenteredZero": false,
+            "barAlignment": 0,
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "insertNulls": false
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 11,
+      "type": "piechart",
+      "title": "Novita Model Ayrımı (LLM vs Vision)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_novita_llm_tokens_total",
+          "legendFormat": "LLM (DeepSeek)",
+          "range": false,
+          "instant": true
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "external_api_novita_vision_tokens_total",
+          "legendFormat": "Vision (Qwen)",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "pieType": "pie",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "displayLabels": [
+          "name"
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      }
     }
-  ],
-  "refresh": "5s",
-  "schemaVersion": 38,
-  "style": "dark",
-  "tags": ["findyourbuddy", "external-apis", "costs", "novita-ai"],
-  "time": { "from": "now-6h", "to": "now" },
-  "title": "2. FindYourBuddy - Dış API Performansı, GIF, Novita Vision & Maliyetler",
-  "uid": "fyb-2-external-apis-costs"
+  ]
 }

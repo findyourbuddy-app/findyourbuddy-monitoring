@@ -1,56 +1,588 @@
 {
-  "annotations": { "list": [] },
+  "uid": "fyb-4-live-logs-security",
+  "title": "4. FindYourBuddy - Güvenlik & Canlı Log",
+  "tags": [
+    "findyourbuddy",
+    "safety",
+    "logs"
+  ],
   "editable": true,
   "graphTooltip": 1,
-  "id": 4,
-  "links": [],
+  "style": "dark",
+  "schemaVersion": 39,
+  "timezone": "browser",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "refresh": "10s",
   "liveNow": true,
+  "links": [],
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
   "panels": [
     {
-      "title": "Toplam Şikayet / Bildirim Sayısı",
+      "id": 1,
       "type": "stat",
-      "gridPos": { "h": 4, "w": 8, "x": 0, "y": 0 },
-      "targets": [{ "expr": "app_reports_total", "legendFormat": "Şikayetler" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+      "title": "Toplam Şikayet",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_reports_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
     },
     {
-      "title": "Engellenen Kullanıcı Sayısı",
+      "id": 2,
       "type": "stat",
-      "gridPos": { "h": 4, "w": 8, "x": 8, "y": 0 },
-      "targets": [{ "expr": "app_blocks_total", "legendFormat": "Engellemeler" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+      "title": "Engellenen Kullanıcı",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_blocks_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 5
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
     },
     {
-      "title": "Çiftli Kanka (Double Buddy) İletişim Yoğunluğu",
+      "id": 3,
       "type": "stat",
-      "gridPos": { "h": 4, "w": 8, "x": 16, "y": 0 },
-      "targets": [{ "expr": "app_double_buddy_requests_total", "legendFormat": "Çift Kanka İsteği" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
+      "title": "Double Buddy İsteği",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_double_buddy_requests_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
     },
     {
-      "title": "Güvenlik & Şikayet Oranı Dağılımı (Reports vs Blocks)",
+      "id": 4,
+      "type": "stat",
+      "title": "Kayıtlı Fotoğraf",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_user_photos_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
       "type": "piechart",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "title": "Güvenlik: Şikayet vs Engelleme",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 4
+      },
+      "pluginVersion": "10.4.0",
       "targets": [
-        { "expr": "app_reports_total", "legendFormat": "Açılan Şikayet / Rapor" },
-        { "expr": "app_blocks_total", "legendFormat": "Engellenen Kullanıcı" }
-      ]
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_reports_total",
+          "legendFormat": "Şikayet",
+          "range": false,
+          "instant": true
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_blocks_total",
+          "legendFormat": "Engelleme",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "pieType": "pie",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "displayLabels": [
+          "name"
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      }
     },
     {
-      "title": "Sistem Sağlık ve Veritabanı Havuz Trendi",
+      "id": 6,
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "title": "Şikayet & Engelleme Trendi",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 4
+      },
+      "pluginVersion": "10.4.0",
       "targets": [
-        { "expr": "supabase_db_status", "legendFormat": "Supabase DB Status" },
-        { "expr": "supabase_db_active_connections", "legendFormat": "Supabase Aktif Bağlantı" }
-      ]
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_reports_total",
+          "legendFormat": "Şikayet",
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_blocks_total",
+          "legendFormat": "Engelleme",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "spanNulls": false,
+            "showPoints": "never",
+            "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisColorMode": "text",
+            "axisBorderShow": false,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "axisCenteredZero": false,
+            "barAlignment": 0,
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "insertNulls": false
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 7,
+      "type": "logs",
+      "title": "Canlı Loglar — hata & uyarı (Loki)",
+      "datasource": {
+        "type": "loki",
+        "uid": "fyb-loki"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "fyb-loki"
+          },
+          "editorMode": "code",
+          "expr": "{container=~\"findyourbuddy.*\"} |~ \"(?i)(error|warning|exception|traceback|critical)\"",
+          "queryType": "range"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
+    },
+    {
+      "id": 8,
+      "type": "logs",
+      "title": "Canlı Loglar — tümü (Loki)",
+      "datasource": {
+        "type": "loki",
+        "uid": "fyb-loki"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "loki",
+            "uid": "fyb-loki"
+          },
+          "editorMode": "code",
+          "expr": "{container=~\"findyourbuddy.*\"}",
+          "queryType": "range"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "dedupStrategy": "none",
+        "sortOrder": "Descending"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      }
     }
-  ],
-  "refresh": "5s",
-  "schemaVersion": 38,
-  "style": "dark",
-  "tags": ["findyourbuddy", "security", "health"],
-  "time": { "from": "now-6h", "to": "now" },
-  "title": "4. FindYourBuddy - Güvenlik, Şikayetler & Sistem Sağlığı",
-  "uid": "fyb-4-live-logs-security"
+  ]
 }
