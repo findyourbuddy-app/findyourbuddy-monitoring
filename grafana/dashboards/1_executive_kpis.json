@@ -1,89 +1,845 @@
 {
-  "annotations": { "list": [] },
+  "uid": "fyb-1-executive-kpis",
+  "title": "1. FindYourBuddy - Yönetici KPI",
+  "tags": [
+    "findyourbuddy",
+    "kpi"
+  ],
   "editable": true,
-  "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 1,
-  "links": [],
+  "style": "dark",
+  "schemaVersion": 39,
+  "timezone": "browser",
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "refresh": "30s",
   "liveNow": true,
+  "links": [],
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
   "panels": [
     {
-      "title": "Anlık Çevrimiçi Kullanıcılar",
+      "id": 1,
       "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
-      "targets": [{ "expr": "app_users_active", "legendFormat": "Aktif Kullanıcı" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "green", "value": null }] } } }
+      "title": "Anlık Çevrimiçi Kullanıcı",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_users_active",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
     },
     {
+      "id": 2,
+      "type": "stat",
       "title": "Toplam Kayıtlı Kullanıcı",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
-      "targets": [{ "expr": "app_users_total", "legendFormat": "Toplam Kullanıcı" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" } } }
-    },
-    {
-      "title": "Aktif Premium Üyeler",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
-      "targets": [{ "expr": "app_subscriptions_active_count", "legendFormat": "Premium Üye" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "purple", "value": null }] } } }
-    },
-    {
-      "title": "Mavi Tikli Doğrulanmış Profiller",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
-      "targets": [{ "expr": "app_users_verified_count", "legendFormat": "Mavi Tik" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" }, "thresholds": { "steps": [{ "color": "blue", "value": null }] } } }
-    },
-    {
-      "title": "Üniversiteli / Öğrenci Sayısı",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
-      "targets": [{ "expr": "app_users_students_total", "legendFormat": "Üniversiteli" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
-    },
-    {
-      "title": "Toplam Eşleşme (Kanka)",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
-      "targets": [{ "expr": "app_matches_active_count", "legendFormat": "Eşleşme" }],
-      "fieldConfig": { "defaults": { "color": { "mode": "thresholds" } } }
-    },
-    {
-      "title": "Kullanıcı Cinsiyet Dağılımı (Kadın vs Erkek vs Diğer)",
-      "type": "piechart",
-      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 4 },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
       "targets": [
-        { "expr": "app_users_gender_female_total", "legendFormat": "Kadın Kullanıcı" },
-        { "expr": "app_users_gender_male_total", "legendFormat": "Erkek Kullanıcı" },
-        { "expr": "app_users_gender_other_total", "legendFormat": "Belirtilmemiş / Diğer" }
-      ]
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_users_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
     },
     {
-      "title": "Kaydırma (Swipe) Dağılım Trendi (Beğeni vs Pas vs Süper Beğeni)",
+      "id": 3,
+      "type": "stat",
+      "title": "Aktif Premium Üye",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_subscriptions_active_count",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "purple",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Mavi Tikli Profil",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_users_verified_count",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Öğrenci Sayısı",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_users_students_total",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Aktif Eşleşme (Kanka)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_matches_active_count",
+          "legendFormat": "__auto",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "orientation": "auto",
+        "textMode": "auto",
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "showPercentChange": false,
+        "wideLayout": true
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "fixedColor": "text"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "orange",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 7,
       "type": "timeseries",
-      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 4 },
+      "title": "Swipe Trendi (kümülatif)",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "pluginVersion": "10.4.0",
       "targets": [
-        { "expr": "app_swipes_likes_total", "legendFormat": "Beğeni (Like)" },
-        { "expr": "app_swipes_passes_total", "legendFormat": "Pas (Pass)" },
-        { "expr": "app_swipes_superlikes_total", "legendFormat": "Süper Beğeni" }
-      ]
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_swipes_likes_total",
+          "legendFormat": "Beğeni",
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_swipes_passes_total",
+          "legendFormat": "Pas",
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "C",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_swipes_superlikes_total",
+          "legendFormat": "Süper Beğeni",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "spanNulls": false,
+            "showPoints": "never",
+            "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisColorMode": "text",
+            "axisBorderShow": false,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "axisCenteredZero": false,
+            "barAlignment": 0,
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "insertNulls": false
+          }
+        },
+        "overrides": []
+      }
     },
     {
-      "title": "Etkinlik Kaynağı Dağılımı (Sistem Scraped vs Kullanıcı Özel)",
+      "id": 8,
       "type": "piechart",
-      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 4 },
+      "title": "Cinsiyet Dağılımı",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "pluginVersion": "10.4.0",
       "targets": [
-        { "expr": "app_events_system_scraped_count", "legendFormat": "Etkinlik.io Scraped" },
-        { "expr": "app_events_user_created_count", "legendFormat": "Kullanıcı Özel Etkinliği" }
-      ]
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_users_gender_female_total",
+          "legendFormat": "Kadın",
+          "range": false,
+          "instant": true
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_users_gender_male_total",
+          "legendFormat": "Erkek",
+          "range": false,
+          "instant": true
+        },
+        {
+          "refId": "C",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_users_gender_other_total",
+          "legendFormat": "Diğer",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "pieType": "pie",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "displayLabels": [
+          "name"
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 9,
+      "type": "piechart",
+      "title": "Etkinlik Kaynağı",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_events_system_scraped_count",
+          "legendFormat": "Sistem (scrape)",
+          "range": false,
+          "instant": true
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_events_user_created_count",
+          "legendFormat": "Kullanıcı",
+          "range": false,
+          "instant": true
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "pieType": "pie",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "displayLabels": [
+          "name"
+        ]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "unit": "short"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Büyüme: kullanıcı / etkinlik / mesaj",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "fyb-prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_users_total",
+          "legendFormat": "Kullanıcı",
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "B",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_events_total",
+          "legendFormat": "Etkinlik",
+          "range": true,
+          "instant": false
+        },
+        {
+          "refId": "C",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "fyb-prometheus"
+          },
+          "editorMode": "code",
+          "expr": "app_messages_total",
+          "legendFormat": "Mesaj",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "spanNulls": false,
+            "showPoints": "never",
+            "pointSize": 5,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "axisPlacement": "auto",
+            "axisLabel": "",
+            "axisColorMode": "text",
+            "axisBorderShow": false,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "axisCenteredZero": false,
+            "barAlignment": 0,
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            },
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "insertNulls": false
+          }
+        },
+        "overrides": []
+      }
     }
-  ],
-  "refresh": "5s",
-  "schemaVersion": 38,
-  "style": "dark",
-  "tags": ["findyourbuddy", "executive", "kpi", "demographics"],
-  "time": { "from": "now-6h", "to": "now" },
-  "title": "1. FindYourBuddy - Yönetici, Demografik & Büyüme Panosu (Executive KPIs)",
-  "uid": "fyb-1-executive-kpis"
+  ]
 }

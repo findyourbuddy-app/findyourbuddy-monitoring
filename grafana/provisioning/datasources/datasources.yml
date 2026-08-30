@@ -10,6 +10,7 @@ datasources:
     editable: false
 
   - name: Loki
+    uid: fyb-loki
     type: loki
     access: proxy
     url: http://loki:3100

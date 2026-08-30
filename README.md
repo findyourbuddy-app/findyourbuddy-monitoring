@@ -21,6 +21,14 @@ Bu repository, **FindYourBuddy** mobil uygulaması ve backend servislerinin bulu
 prod'da değiştirin). Bu olmadan `backend-api` hedefi `401` ile DOWN görünür ve
 1-4 numaralı panolar boş kalır.
 
+## 📊 Panolar
+
+5 pano `grafana/dashboards/*.json` — `grafana/generate-dashboards.mjs` ile üretilir
+(tam Grafana 10.4 panel JSON'u; eksik `id`/`datasource`/`options` alanları 10.4'te
+boş panel olarak render oluyordu). Değişiklik için `.mjs`'i düzenleyip
+`node grafana/generate-dashboards.mjs` çalıştırın, çıktı JSON'larını commit'leyin.
+Datasource'lar sabit uid ile provision edilir: `fyb-prometheus`, `fyb-loki`.
+
 ## 🚨 Alarmlar
 
 Kural dosyası `prometheus/alerts.yml` — yalnızca gerçekten var olan metrikleri
