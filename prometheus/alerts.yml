@@ -1,38 +1,61 @@
 groups:
-  - name: findyourbuddy_alerts
+  - name: findyourbuddy_availability
     rules:
-      - alert: HighErrorRate5xx
-        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.05
+      - alert: BackendScrapeDown
+        expr: up{job="backend-api"} == 0
         for: 2m
         labels:
           severity: critical
         annotations:
-          summary: "Yüksek 5xx Sunucu Hatası Algılandı"
-          description: "API sunucusu son 5 dakikada %5'ten fazla 5xx hatası verdi."
+          summary: "Backend metrics scrape is failing"
+          description: "Prometheus cannot scrape {{ $labels.instance }} for 2m — the backend may be down or /health/metrics is unreachable."
 
-      - alert: HighLatencyP95
-        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 1.0
-        for: 3m
+      - alert: BackendUnhealthy
+        expr: findyourbuddy_up == 0
+        for: 2m
         labels:
-          severity: warning
+          severity: critical
         annotations:
-          summary: "Yüksek Yanıt Süresi (p95 > 1000ms)"
-          description: "İsteklerin %95'i 1 saniyeden uzun sürüyor."
+          summary: "Backend reports itself unhealthy"
+          description: "findyourbuddy_up has been 0 for 2m."
 
-      - alert: DatabasePoolExhaustion
-        expr: db_pool_active_connections / db_pool_max_connections > 0.85
+  - name: findyourbuddy_database
+    rules:
+      - alert: DatabaseDown
+        expr: supabase_db_status == 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "PostgreSQL Bağlantı Havuzu %85'i Aşmış"
-          description: "Veritabanı bağlantı havuzu tükenmek üzere."
+          summary: "Supabase/PostgreSQL is unreachable"
+          description: "supabase_db_status has been 0 for 1m — the backend cannot reach the database."
 
-      - alert: HighCloudCostSpike
-        expr: rate(cloud_estimated_cost_usd_total[1h]) * 24 * 30 > 500
-        for: 15m
+      - alert: DatabasePoolNearExhaustion
+        expr: supabase_db_active_connections > 24
+        for: 5m
         labels:
           severity: warning
         annotations:
-          summary: "Aylık Maliyet Tahmini Sınırı Aştı (>$500/ay)"
-          description: "Cloud kaynak kullanımı aylık $500 maliyet tahminini aştı."
+          summary: "DB connection pool > 80% used"
+          description: "supabase_db_active_connections={{ $value }} (pool is 30). Sustained load or a connection leak."
+
+      - alert: DatabasePoolExhausted
+        expr: supabase_db_active_connections >= 30
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "DB connection pool exhausted"
+          description: "supabase_db_active_connections={{ $value }} — new queries will block. Expect request timeouts."
+
+  - name: findyourbuddy_load_test
+    rules:
+      # Only fires while a k6 run is streaming (load-test/docker-compose.k6.yml).
+      - alert: LoadTestHighErrorRate
+        expr: max(k6_http_req_failed_rate) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "k6 load test: >10% requests failing"
+          description: "The target is past its capacity for the current k6 profile."
